@@ -75,7 +75,7 @@ public class Game {
 
                 // Quando o botão é apertado
                 buttons[x][y].addActionListener(e -> {
-                    Reveal(PosX, PosY);
+                    Reveal(PosX, PosY, "CLIQUE");
                     }
                 );
             }
@@ -103,24 +103,38 @@ public class Game {
     }
     
     // REVELAR O TILE QUE FOI CLICADO
-    private  void Reveal(int x, int y) {
+    private  void Reveal(int x, int y, String mode) {
     	// Não deixa revelar se perdeu o jogo
-        //if (end) {
-        //	return;
-        //}
+        if (end) {
+        	return;
+        }
     	
     	Space space = layout.getSpace(x, y);
         
-        if (!space.revelado) {
-        	space.revelado = true;
-        } else {
+        if (space.revelado) {
+        	return;
         }
         
-    	if (space.bomb) {
+        space.revelado = true;
+        
+    	if (space.bomb && mode.equals("CLIQUE")) {
     		this.end = true;
     		SetarSprite(x, y, 2, 2);
     		return;
     	}
+    	//Sistema de Revelar Vazios
+    	if (space.bombNearby == 0) {
+	    	for (int i_y = y - 1; i_y < y + 2; i_y++) {
+	    		for(int i_x = x -1; i_x < x + 2; i_x++) {
+	    			// Cordenada fora do tabuleiro
+	    			if ((i_y < 0 || i_y >= Game.Y) || (i_x < 0 || i_x >= Game.X)) {
+	    				continue;
+	    			}
+	    	    	Reveal(i_x, i_y, "BUSCA");
+	    		}
+	    	}
+    	}
+    	
     	if (space.bombNearby >= 0 && space.bombNearby <= 8) {
     		SetarSprite(x, y, space.bombNearby, 3);
     	}
