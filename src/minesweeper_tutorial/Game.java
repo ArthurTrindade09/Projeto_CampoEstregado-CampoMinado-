@@ -18,8 +18,8 @@ public class Game {
     // SET UP
     public static final int WIDTH = 16;
     public static final int HEIGHT = 16;
-    public static final int X = 5;
-    public static final int Y = 5;
+    public static final int X = 10;
+    public static final int Y = 10;
     public static final int TILE_SIZE = 32;
     
     protected JFrame window;
@@ -27,8 +27,8 @@ public class Game {
     // ATRIBUTOS DO JOGO
     public static final int BOMB_COUNT = 10;
     private int score_box_width = 100;
-    private boolean end = false;
-    private boolean win = false;
+    public boolean end = false;
+    public boolean win = false;
     private int flags;
 
     public Game() {
@@ -83,7 +83,10 @@ public class Game {
 
         window.add(panel);
         window.setTitle("Campo Estragado");
-        window.setSize(180, 200);
+        window.setSize(
+        	X * TILE_SIZE,
+        	Y * TILE_SIZE + 40
+        );
         window.setVisible(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -100,8 +103,13 @@ public class Game {
     }
     
     // REVELAR O TILE QUE FOI CLICADO
-    private void Reveal(int x, int y) {
-        Space space = layout.getSpace(x, y);
+    private  void Reveal(int x, int y) {
+    	// Não deixa revelar se perdeu o jogo
+        //if (end) {
+        //	return;
+        //}
+    	
+    	Space space = layout.getSpace(x, y);
         
         if (!space.revelado) {
         	space.revelado = true;
@@ -109,8 +117,12 @@ public class Game {
         }
         
     	if (space.bomb) {
-    		System.out.println("VOCÊ PERDEU!!");
+    		this.end = true;
     		SetarSprite(x, y, 2, 2);
+    		return;
+    	}
+    	if (space.bombNearby >= 0 && space.bombNearby <= 8) {
+    		SetarSprite(x, y, space.bombNearby, 3);
     	}
     }
     

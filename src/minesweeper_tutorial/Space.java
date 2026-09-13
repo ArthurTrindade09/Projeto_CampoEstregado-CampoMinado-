@@ -8,7 +8,7 @@ public class Space {
 	public boolean bomb;
 	public boolean flagged;
 	public boolean revelado;
-	public int bombNearby;
+	public int bombNearby = 0;
 	public BufferedImage image;
 	
 	public Space(boolean bomb) {
