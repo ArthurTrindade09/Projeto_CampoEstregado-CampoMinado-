@@ -3,9 +3,42 @@
 ## Oque é:
 Campo Estragado é minha tentativa de refazer o jogo do jogo do campo minado no EclipseIDE com java e java swing como tentativa de aprender a usar classes e orientação à objetos e usar janela e sprites para um jogo estilo anos 90 ou seilá.
 
-## Versão atual: V1.2.0
+## Versão atual: V2.0.0
 
 ## Versões anteriores:
+### V2.0.0 - 2026/09/13
+
+- Abre uma janela com o jogo tendo 10 bombas num campo de 10x10
+
+- Se clicar numa bomba, aparece o sprite da bomba e não deixa você continuar, deverá fechar e abrir denovo
+
+- Exibe tiles e bombas proximas
+
+- Sistema de flood fill funcionando
+
+- Adicionado Caso onde ganha o jogo
+
+- Adicionado Bandeiras, basta clicar com o botão direito encima do tile fechado. Porém só tem 10 bandeiras
+
+- Testando ondas sonoras por uma classe Synth()
+
+---
+### V1.3.0 - 2026/09/13
+
+- Abre uma janela com o jogo tendo 10 bombas num campo de 10x10
+
+- Se clicar numa bomba, aparece o sprite da bomba e não deixa você continuar, deverá fechar e abrir denovo
+
+- Exibe tiles e bombas proximas
+
+- Sistema de flood fill funcionando
+
+- Adicionado Caso onde ganha o jogo
+
+- Adicionado Bandeiras, basta clicar com o botão direito encima do tile fechado. Porém só tem 10 bandeiras
+
+---
+
 ### V1.2.0 - 2026/09/13
 
 - Abre uma janela com o jogo tendo 10 bombas num campo de 10x10

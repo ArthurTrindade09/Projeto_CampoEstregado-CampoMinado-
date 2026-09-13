@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class Game {
     private int score_box_width = 100;
     public boolean end = false;
     public boolean win = false;
+    public int CASAS_REVELADAS = 0;
     private int flags;
 
     public Game() {
@@ -48,6 +51,7 @@ public class Game {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(X, Y));
 
+        // Quantidade de FLAGS
         flags = BOMB_COUNT;
 
         // Configura os botões
@@ -56,7 +60,9 @@ public class Game {
 
                 final int PosY = y;
                 final int PosX = x;
-
+                
+            	Space space = layout.getSpace(x, y);
+            	
                 buttons[x][y] = new JButton();
                 
                 SetarSprite(x, y, 0, 2);
@@ -74,13 +80,19 @@ public class Game {
                 panel.add(buttons[x][y]);
 
                 // Quando o botão é apertado
-                buttons[x][y].addActionListener(e -> {
-                    Reveal(PosX, PosY, "CLIQUE");
+                buttons[PosX][PosY].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                        	ToggleFlag(PosX, PosY);
+                        } else if (e.getButton() == MouseEvent.BUTTON1) {
+                        	Reveal(PosX, PosY, "CLIQUE");
+                        }
                     }
-                );
+                });
             }
         }
-
         window.add(panel);
         window.setTitle("Campo Estragado");
         window.setSize(
@@ -104,8 +116,8 @@ public class Game {
     
     // REVELAR O TILE QUE FOI CLICADO
     private  void Reveal(int x, int y, String mode) {
-    	// Não deixa revelar se perdeu o jogo
-        if (end) {
+    	// Não deixa revelar se perdeu/ganhou o jogo
+        if (end || win) {
         	return;
         }
     	
@@ -116,12 +128,21 @@ public class Game {
         }
         
         space.revelado = true;
+        CASAS_REVELADAS += 1;
         
     	if (space.bomb && mode.equals("CLIQUE")) {
+    		Synth.tocarNota(220, 500);
+    		Synth.tocarNota(330, 500);
     		this.end = true;
     		SetarSprite(x, y, 2, 2);
     		return;
     	}
+    	
+    	// Caso onde você ganha
+    	if (CASAS_REVELADAS == ((X * Y)-BOMB_COUNT)){
+    		win = true;
+    	}
+    	
     	//Sistema de Revelar Vazios
     	if (space.bombNearby == 0) {
 	    	for (int i_y = y - 1; i_y < y + 2; i_y++) {
@@ -150,4 +171,29 @@ public class Game {
         );
         buttons[x][y].setIcon(new javax.swing.ImageIcon(scaled));
     }
+
+    private void ToggleFlag(int x, int y) {
+        Space space = layout.getSpace(x, y);
+
+        if (space.revelado) {
+            return;
+        }
+
+        if (space.flag) {
+            space.flag = false;
+            SetarSprite(x, y, 0, 2); // SPRITE TILE SEM BANDEIRA
+            flags++;
+            
+        } else {
+            if (flags <= 0) {
+                return;
+            }
+
+            space.flag = true;
+            SetarSprite(x, y, 1, 2); // SPRITE TILE COM BANDEIRA
+            flags--;
+
+        }
+    }
+    
 }
