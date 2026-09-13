@@ -3,10 +3,10 @@ package minesweeper_tutorial;
 import java.util.Random;
 
 public class Board {
-	private Space[][] board = new Space[Game.Y][Game.X]; 
+	private Space[][] board = new Space[Game.X][Game.Y]; 
 	
-	public Space getSpace(int y, int x) {
-		return board[y][x];
+	public Space getSpace(int x, int y) {
+		return board[x][y];
 	}
 	
 	public Board() {
@@ -16,7 +16,7 @@ public class Board {
 		// Cria a matriz do tabuleiro Game.Y x Game.X
 		for (int i_y = 0; i_y < Game.Y; i_y++) {
 			for (int i_x = 0; i_x < Game.X; i_x++) {
-				board[i_y][i_x] = new Space(false);
+				board[i_x][i_y] = new Space(false);
 			} // Linhas
 		} // Colunas
 		
@@ -25,13 +25,13 @@ public class Board {
 			int Posicao_X = Gerador.nextInt(Game.X);
 			int Posicao_Y = Gerador.nextInt(Game.Y);
 			
-			if (board[Posicao_Y][Posicao_X].bomb == true) {
+			if (board[Posicao_X][Posicao_Y].bomb == true) {
 				// Ja tem bomba, então não pode colocar
 				continue;
 			} else {
 				// Não tem bomba. Pode colocar bomba
 				BombasColocadas += 1;
-				board[Posicao_Y][Posicao_X].bomb = true;
+				board[Posicao_X][Posicao_Y].bomb = true;
 			}	
 		}
 		
@@ -45,12 +45,12 @@ public class Board {
 		for (int i_y = 0; i_y < Game.Y; i_y++) {
 			for (int i_x = 0; i_x < Game.X; i_x++) {
 				
-				if (board[i_y][i_x].bomb == true) {
+				if (board[i_x][i_y].bomb == true) {
 					// Se tiver bomba
 					System.out.print("[💣]");
 				} else {
 					// Se não tiver bomba
-					System.out.print("["+board[i_y][i_x].bombNearby+"]");
+					System.out.print("["+board[i_x][i_y].bombNearby+"]");
 				}
 			} // Linhas
 			System.out.println();
@@ -76,10 +76,10 @@ public class Board {
 							continue;
 							
 						} else {
-							if (board[CheckY][CheckX].bomb == true) {
+							if (board[CheckX][CheckY].bomb == true) {
 								// Caso Tenha bomba
 								// Bombas proximas do tile que está analisando
-								board[i_y][i_x].bombNearby += 1;
+								board[i_x][i_y].bombNearby += 1;
 							} else {
 								// Caso não tenha bomba
 								continue;

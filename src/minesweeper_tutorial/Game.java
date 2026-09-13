@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Game {
 
     private Board layout;
-    private JButton[][] buttons = new JButton[Y][X];
+    private JButton[][] buttons = new JButton[X][Y];
     private BufferedImage spritesheet;
 
     // SET UP
@@ -46,7 +46,7 @@ public class Game {
         layout = new Board();
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(Y, X));
+        panel.setLayout(new GridLayout(X, Y));
 
         flags = BOMB_COUNT;
 
@@ -57,25 +57,25 @@ public class Game {
                 final int PosY = y;
                 final int PosX = x;
 
-                buttons[y][x] = new JButton();
+                buttons[x][y] = new JButton();
                 
-                SetarSprite(y, x, 2, 0);
+                SetarSprite(x, y, 0, 2);
                 
                 // Configuração tamanho do botão
-                buttons[y][x].setPreferredSize(
+                buttons[x][y].setPreferredSize(
                     new java.awt.Dimension(TILE_SIZE, TILE_SIZE)
                 );
 
                 // Tirando informaçoes do botão
-                buttons[y][x].setBorderPainted(false);
-                buttons[y][x].setContentAreaFilled(false);
-                buttons[y][x].setFocusPainted(false);
+                buttons[x][y].setBorderPainted(false);
+                buttons[x][y].setContentAreaFilled(false);
+                buttons[x][y].setFocusPainted(false);
 
-                panel.add(buttons[y][x]);
+                panel.add(buttons[x][y]);
 
                 // Quando o botão é apertado
-                buttons[y][x].addActionListener(e -> {
-                    Reveal(PosY, PosX);
+                buttons[x][y].addActionListener(e -> {
+                    Reveal(PosX, PosY);
                     }
                 );
             }
@@ -100,8 +100,8 @@ public class Game {
     }
     
     // REVELAR O TILE QUE FOI CLICADO
-    private void Reveal(int y, int x) {
-        Space space = layout.getSpace(y, x);
+    private void Reveal(int x, int y) {
+        Space space = layout.getSpace(x, y);
         
         if (!space.revelado) {
         	space.revelado = true;
@@ -110,15 +110,18 @@ public class Game {
         
     	if (space.bomb) {
     		System.out.println("VOCÊ PERDEU!!");
+    		SetarSprite(x, y, 2, 2);
     	}
     }
-    private void SetarSprite(int y, int x, int image_X, int image_Y) {
-        BufferedImage sprite = getSprite(image_Y, image_X);
+    
+    // Muda o sprite do tile
+    private void SetarSprite(int x, int y, int image_X, int image_Y) {
+        BufferedImage sprite = getSprite(image_X, image_Y);
         Image scaled = sprite.getScaledInstance(
             TILE_SIZE,
             TILE_SIZE,
             Image.SCALE_FAST
         );
-        buttons[y][x].setIcon(new javax.swing.ImageIcon(scaled));
+        buttons[x][y].setIcon(new javax.swing.ImageIcon(scaled));
     }
 }
