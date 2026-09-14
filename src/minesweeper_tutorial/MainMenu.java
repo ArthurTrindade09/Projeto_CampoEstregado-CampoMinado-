@@ -79,15 +79,15 @@ public class MainMenu {
         
         JLabel tamanho = new JLabel("Tamanho do tabuleiro:");
 
-        JRadioButton tamanho5 = new JRadioButton("5 x 5");
         JRadioButton tamanho10 = new JRadioButton("10 x 10");
+        JRadioButton tamanho15 = new JRadioButton("15 x 15");
         JRadioButton tamanho20 = new JRadioButton("20 x 20");
-
+        JRadioButton tamanho25 = new JRadioButton("25 x 25");
         ButtonGroup grupoTamanho = new ButtonGroup();
-        grupoTamanho.add(tamanho5);
         grupoTamanho.add(tamanho10);
+        grupoTamanho.add(tamanho15);
         grupoTamanho.add(tamanho20);
-
+        grupoTamanho.add(tamanho25);
         tamanho10.setSelected(true);
         
         JLabel bombas = new JLabel("Quantidade de bombas:");
@@ -95,12 +95,14 @@ public class MainMenu {
         JRadioButton bombas5 = new JRadioButton("5");
         JRadioButton bombas10 = new JRadioButton("10");
         JRadioButton bombas20 = new JRadioButton("20");
+        JRadioButton bombas30 = new JRadioButton("30");
         JRadioButton bombasAleatorio = new JRadioButton("Aleatório");
 
         ButtonGroup grupoBombas = new ButtonGroup();
         grupoBombas.add(bombas5);
         grupoBombas.add(bombas10);
         grupoBombas.add(bombas20);
+        grupoBombas.add(bombas30);
         grupoBombas.add(bombasAleatorio);
 
         bombas10.setSelected(true);
@@ -108,25 +110,28 @@ public class MainMenu {
         
         tamanho.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
-        tamanho5.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         tamanho10.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
+        tamanho15.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         tamanho20.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
-
+        tamanho25.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
+        
         bombas.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 
         bombas5.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         bombas10.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         bombas20.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
+        bombas30.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         bombasAleatorio.setAlignmentX(JRadioButton.CENTER_ALIGNMENT);
         
         conteudo.add(tamanho);
-        conteudo.add(tamanho5);
         conteudo.add(tamanho10);
+        conteudo.add(tamanho15);
         conteudo.add(tamanho20);
+        conteudo.add(tamanho25);
         conteudo.add(bombas);
-        conteudo.add(bombas5);
         conteudo.add(bombas10);
         conteudo.add(bombas20);
+        conteudo.add(bombas30);
         conteudo.add(bombasAleatorio);
         
         JButton jogar1 = new JButton("JOGAR");
@@ -138,10 +143,12 @@ public class MainMenu {
         	
             int tamanho_a = 10;
 
-            if (tamanho5.isSelected()) {
-                tamanho_a = 5;
+            if (tamanho15.isSelected()) {
+                tamanho_a = 15;
             } else if (tamanho20.isSelected()) {
                 tamanho_a = 20;
+            } else if (tamanho25.isSelected()) {
+                tamanho_a = 25;
             }
 
             System.out.println("Tamanho: " + tamanho_a);
@@ -152,6 +159,9 @@ public class MainMenu {
                 bombas_a = 5;
             } else if (bombas20.isSelected()) {
                 bombas_a = 20;
+            }
+              else if (bombas30.isSelected()) {
+                bombas_a = 30;
             } else if (bombasAleatorio.isSelected()) {
             	bombas_a = gerador.nextInt(tamanho_a * 2);
             }

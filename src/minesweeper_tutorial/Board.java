@@ -51,23 +51,6 @@ public class Board {
 		
 	} // Metodo Board()
 	
-	public void MostrarBoard() {
-		// Percorre o tabuleiro para mostrar tudo.
-		for (int i_y = 0; i_y < Y; i_y++) {
-			for (int i_x = 0; i_x < X; i_x++) {
-				
-				if (board[i_x][i_y].bomb == true) {
-					// Se tiver bomba
-					System.out.print("[💣]");
-				} else {
-					// Se não tiver bomba
-					System.out.print("["+board[i_x][i_y].bombNearby+"]");
-				}
-			} // Linhas
-			System.out.println();
-		} // Colunas
-	}
-
 	public void ConfigurarNumero() {
 		// Acessar cada tile para verificar
 		for (int i_y = 0; i_y < Y; i_y++) {

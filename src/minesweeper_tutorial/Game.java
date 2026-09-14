@@ -53,7 +53,7 @@ public class Game {
         // CARREGAR SPRITESHEET
         try {
             spritesheet = ImageIO.read(
-                getClass().getResource("/Sprites/TilesCampoEstragado02.png")
+                getClass().getResource("/Sprites/TilesCampoEstragado.png")
             );
         } catch (IOException e) {
             e.printStackTrace();
@@ -233,7 +233,6 @@ public class Game {
     
     // REVELAR O TILE QUE FOI CLICADO
     private  void Reveal(int x, int y, String mode) {
-    	double frequencia;
     	// Não deixa revelar se perdeu/ganhou o jogo
         if (end || win) {
         	return;
@@ -250,6 +249,14 @@ public class Game {
         
         if (space.bomb && mode.equals("CLIQUE")) {
             this.end = true;
+            for (int i_y = 0; i_y < this.Y; i_y++) {
+            	for (int i_x = 0; i_x < this.X; i_x++) {
+                	Space Checkspace = layout.getSpace(i_x, i_y);
+                	if (Checkspace.bomb) {
+                		SetarSprite(i_x, i_y, 2, 2);
+                	}
+            	}
+            }
             MusicPlayer.play("GAME_OVER.wav");
             cronometro.stop();
             mensagem.setText("GAME OVER");
