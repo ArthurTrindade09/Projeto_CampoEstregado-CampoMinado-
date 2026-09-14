@@ -3,11 +3,8 @@ package minesweeper_tutorial;
 public class Main {
 	
     public static void main(String[] args) {
-		Game game = new Game();
+		MainMenu menu = new MainMenu();
 		
-		if (game.end) {
-			System.out.println("VOCÊ PERDEU!!");
-			
-		}
+		
     }
 }

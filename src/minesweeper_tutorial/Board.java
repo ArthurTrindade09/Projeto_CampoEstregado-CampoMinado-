@@ -3,27 +3,38 @@ package minesweeper_tutorial;
 import java.util.Random;
 
 public class Board {
-	private Space[][] board = new Space[Game.X][Game.Y]; 
+	private int X;
+	private int Y;
+	private int BOMBS;
+	
+	
+	private Space[][] board = new Space[X][Y]; 
 	
 	public Space getSpace(int x, int y) {
 		return board[x][y];
 	}
 	
-	public Board() {
+	public Board(int x, int y, int bombs) {
+		this.X = x;
+		this.Y = y;
+		this.BOMBS = bombs;
+		
+		board = new Space[X][Y];
+		
 		Random Gerador = new Random(); // Gerador de números aleatórios
 		int BombasColocadas = 0;
 		
 		// Cria a matriz do tabuleiro Game.Y x Game.X
-		for (int i_y = 0; i_y < Game.Y; i_y++) {
-			for (int i_x = 0; i_x < Game.X; i_x++) {
+		for (int i_y = 0; i_y < Y; i_y++) {
+			for (int i_x = 0; i_x < X; i_x++) {
 				board[i_x][i_y] = new Space(false);
 			} // Linhas
 		} // Colunas
 		
 		// Configurar onde vai ter bomba
-		while (BombasColocadas < Game.BOMB_COUNT) {
-			int Posicao_X = Gerador.nextInt(Game.X);
-			int Posicao_Y = Gerador.nextInt(Game.Y);
+		while (BombasColocadas < BOMBS) {
+			int Posicao_X = Gerador.nextInt(X);
+			int Posicao_Y = Gerador.nextInt(Y);
 			
 			if (board[Posicao_X][Posicao_Y].bomb == true) {
 				// Ja tem bomba, então não pode colocar
@@ -42,8 +53,8 @@ public class Board {
 	
 	public void MostrarBoard() {
 		// Percorre o tabuleiro para mostrar tudo.
-		for (int i_y = 0; i_y < Game.Y; i_y++) {
-			for (int i_x = 0; i_x < Game.X; i_x++) {
+		for (int i_y = 0; i_y < Y; i_y++) {
+			for (int i_x = 0; i_x < X; i_x++) {
 				
 				if (board[i_x][i_y].bomb == true) {
 					// Se tiver bomba
@@ -59,15 +70,15 @@ public class Board {
 
 	public void ConfigurarNumero() {
 		// Acessar cada tile para verificar
-		for (int i_y = 0; i_y < Game.Y; i_y++) {
-			for (int i_x = 0; i_x < Game.X; i_x++) {
+		for (int i_y = 0; i_y < Y; i_y++) {
+			for (int i_x = 0; i_x < X; i_x++) {
 		
 				// Verificar 8 tiles vizinhos
 				for (int CheckY = i_y - 1; CheckY < i_y + 2; CheckY++) {
 					for (int CheckX = i_x - 1; CheckX < i_x + 2; CheckX++) {
 						
 						// Caso a posição a checar esteja fora do tabuleiro
-						if ((CheckY < 0 || CheckY >= Game.Y) || (CheckX < 0 || CheckX >= Game.X)) {
+						if ((CheckY < 0 || CheckY >= Y) || (CheckX < 0 || CheckX >= X)) {
 							continue;
 						}
 						

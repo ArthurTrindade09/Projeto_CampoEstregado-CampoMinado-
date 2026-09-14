@@ -5,44 +5,42 @@ import javax.sound.sampled.*;
 public class Synth {
 
     public static void tocarNota(double frequencia, int duracao) {
-    	
-    	
-        float sampleRate = 44100;
-        int samples = (int) (duracao * sampleRate / 1000);
-
-        AudioFormat formato = new AudioFormat(
-            sampleRate,
-            8,
-            1,
-            true,
-            false
-        );
-
         try {
+            float sampleRate = 44100;
+
+            AudioFormat formato = new AudioFormat(
+                sampleRate,
+                8,
+                1,
+                true,
+                false
+            );
+
             SourceDataLine linha = AudioSystem.getSourceDataLine(formato);
             linha.open(formato);
             linha.start();
 
-            byte[] dados = new byte[samples];
+            byte[] buffer = new byte[1];
 
-            for (int i = 0; i < samples; i++) {
+            int amostras = (int) (duracao * sampleRate / 1000);
+
+            for (int i = 0; i < amostras; i++) {
 
                 double tempo = i / sampleRate;
 
-                double onda = Math.sin(
-                    2 * Math.PI * frequencia * tempo
+                byte valor = (byte) (
+                    Math.sin(2 * Math.PI * frequencia * tempo) * 127
                 );
 
-                dados[i] = (byte) (onda * 127);
+                buffer[0] = valor;
+                linha.write(buffer, 0, 1);
             }
-
-            linha.write(dados, 0, dados.length);
 
             linha.drain();
             linha.stop();
             linha.close();
 
-        } catch (LineUnavailableException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
